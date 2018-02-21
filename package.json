@@ -1,5 +1,5 @@
 {
-  "name": "react-dual-range-slider",
+  "name": "react-dual-range",
   "version": "0.1.0",
   "description": "React dual range slider",
   "repository": {
@@ -10,7 +10,8 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack -p --config webpack.dist.config.js",
-    "build-example": "webpack-dev-server --hot --config webpack.example.config.js --content-base ./example"
+    "build-example":
+      "webpack-dev-server --hot --config webpack.example.config.js --content-base ./example"
   },
   "devDependencies": {
     "@types/react": "^16.0.38",
