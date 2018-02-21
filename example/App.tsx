@@ -4,35 +4,27 @@ import RangeSlider from "../src/RangeSlider";
 import "../src/style.scss";
 import "./style.scss";
 
-class App extends React.Component {
-  state = {
-    valueMin: 0,
-    valueMax: 100
-  };
+interface State {
+  values: [number, number];
+}
 
-  handleValueMinChange = (valueMin: number) => {
-    this.setState({ valueMin });
-  };
+class App extends React.Component<null, State> {
+  state: State = { values: [0, 100] };
 
-  handleValueMaxChange = (valueMax: number) => {
-    this.setState({ valueMax });
+  handleChange = (values: [number, number]) => {
+    this.setState({ values });
   };
 
   render() {
     return (
       <>
         <RangeSlider
-          min={0}
-          max={100}
+          range={[100, 0]}
           step={1.5}
-          valueMin={this.state.valueMin}
-          valueMax={this.state.valueMax}
-          onValueMinChange={this.handleValueMinChange}
-          onValueMaxChange={this.handleValueMaxChange}
+          values={this.state.values}
+          onChange={this.handleChange}
         />
-        <div>
-          {this.state.valueMin} - {this.state.valueMax}
-        </div>
+        <div>{this.state.values.join("   -   ")}</div>
       </>
     );
   }

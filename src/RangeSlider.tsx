@@ -1,13 +1,12 @@
 import * as React from "react";
 
+type NumberPair = [number, number];
+
 interface Props {
-  min: number;
-  max: number;
+  range: NumberPair;
   step: number;
-  valueMin: number;
-  valueMax: number;
-  onValueMinChange: (value: number) => void;
-  onValueMaxChange: (value: number) => void;
+  values: NumberPair;
+  onChange: (values: NumberPair) => void;
 }
 
 interface State {
@@ -33,7 +32,7 @@ export default class RangeSlider extends React.Component<Props, State> {
 
   getPosition = (value: number) => {
     const width = this.trackRef.offsetWidth;
-    const { min, max } = this.props;
+    const { range: [min, max] } = this.props;
     return width * (value - min) / (max - min);
   };
 
@@ -62,37 +61,53 @@ export default class RangeSlider extends React.Component<Props, State> {
 
   handleMouseMove = (event: MouseEvent) => {
     event.preventDefault();
-
-    const { max, min, step, valueMin, valueMax } = this.props;
+    const {
+      range: [min, max],
+      step,
+      values: [valueLeft, valueRight]
+    } = this.props;
     const { dragging } = this.state;
     const width = this.trackRef.offsetWidth;
-    const position = Math.min(
-      Math.max(event.clientX - this.trackRef.getBoundingClientRect().left, 0),
-      width
-    );
+    const position = event.clientX - this.trackRef.getBoundingClientRect().left;
 
     const rawValue = position * (max - min) / width + min;
+    const value = Math.min(
+      max,
+      Math.max(min, min + step * Math.round((rawValue - min) / step))
+    );
 
-    const value = min + step * Math.round((rawValue - min) / step);
-
-    if (dragging === "left" && !isEqual(valueMin, value)) {
-      this.props.onValueMinChange(value);
-    } else if (dragging === "right" && !isEqual(valueMax, value)) {
-      this.props.onValueMaxChange(value);
+    if (
+      dragging === "left" &&
+      !isEqual(valueLeft, value) &&
+      value <= valueRight
+    ) {
+      this.props.onChange([value, valueRight]);
+    } else if (
+      dragging === "right" &&
+      !isEqual(valueRight, value) &&
+      value >= valueLeft
+    ) {
+      this.props.onChange([valueLeft, value]);
     }
+  };
+
+  handleResize = () => {
+    this.forceUpdate();
   };
 
   componentDidMount() {
     document.addEventListener("mouseup", this.handleMouseUp);
+    document.addEventListener("resize", this.handleResize);
     this.forceUpdate();
   }
 
   componentWillUnmount() {
     document.removeEventListener("mouseup", this.handleMouseUp);
+    document.removeEventListener("resize", this.handleResize);
   }
 
   render() {
-    const { valueMin, valueMax } = this.props;
+    const { values } = this.props;
 
     return (
       <div className="react-drs">
@@ -101,12 +116,12 @@ export default class RangeSlider extends React.Component<Props, State> {
           <div className="react-drs_dot react-drs_left-dot" />
           <div
             className="react-drs_handle"
-            style={this.getStyle(valueMin)}
+            style={this.getStyle(values[0])}
             onMouseDown={this.handleLeftHandleMouseDown}
           />
           <div
             className="react-drs_handle"
-            style={this.getStyle(valueMax)}
+            style={this.getStyle(values[1])}
             onMouseDown={this.handleRightHandleMouseDown}
           />
         </div>
