@@ -1,0 +1,30 @@
+{
+  "name": "react-dual-range-slider",
+  "version": "0.1.0",
+  "description": "React dual range slider",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vince91/react-dual-range-slider"
+  },
+  "author": "Vincent Timofti",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack -p --config webpack.dist.config.js",
+    "build-example": "webpack-dev-server --hot --config webpack.example.config.js --content-base ./example"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.38",
+    "@types/react-dom": "^16.0.4",
+    "compression-webpack-plugin": "^1.1.7",
+    "prettier": "^1.10.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "ts-loader": "^3.5.0",
+    "typescript": "^2.7.2",
+    "uglifyjs-webpack-plugin": "^1.2.0",
+    "webpack": "^3.11.0",
+    "webpack-bundle-analyzer": "^2.10.0",
+    "webpack-dev-server": "^2.11.1"
+  },
+  "dependencies": {}
+}
