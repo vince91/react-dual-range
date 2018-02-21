@@ -1,0 +1,52 @@
+$dot-size: 12px;
+$handle-size: 20px;
+
+.react-drs {
+  position: relative;
+  padding: 0 calc(#{$handle-size}/2);
+  height: 24px;
+
+  &_track {
+    height: 4px;
+    background: lightgrey;
+    position: relative;
+    top: 10px;
+  }
+
+  &_handle {
+    position: absolute;
+    height: $handle-size;
+    width: $handle-size;
+    border: 3px lightslategray solid;
+    background-color: lightslategray;
+    border-radius: $handle-size;
+    top: -8px;
+    left: -10px;
+    cursor: -webkit-grab;
+    cursor: grab;
+  }
+
+  &_dot {
+    position: absolute;
+    height: $dot-size;
+    width: $dot-size;
+    border: 3px lightgray solid;
+    border-radius: $dot-size;
+    top: -4px;
+    background-color: white;
+  }
+
+  &_right-dot {
+    right: -6px;
+  }
+
+  &_left-dot {
+    left: -6px;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+}

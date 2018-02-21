@@ -6,7 +6,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.ts",
+  entry: "./src/RangeSlider.tsx",
   module: {
     rules: [
       {
