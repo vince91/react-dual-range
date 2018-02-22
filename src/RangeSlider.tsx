@@ -17,10 +17,6 @@ interface StyleFunc {
   (value: number): React.CSSProperties;
 }
 
-function isEqual(a: number, b: number) {
-  return Math.abs(a - b) < (Number as any).EPSILON;
-}
-
 export default class RangeSlider extends React.Component<Props, State> {
   trackRef: HTMLDivElement = null;
 
@@ -31,9 +27,8 @@ export default class RangeSlider extends React.Component<Props, State> {
   setTrackRef = (ref: HTMLDivElement) => (this.trackRef = ref);
 
   getPosition = (value: number) => {
-    const width = this.trackRef.offsetWidth;
-    const { range: [min, max] } = this.props;
-    return width * (value - min) / (max - min);
+    const [left, right] = this.props.range;
+    return this.trackRef.offsetWidth * (value - left) / (right - left);
   };
 
   getStyle: StyleFunc = (value: number) => {
@@ -42,6 +37,17 @@ export default class RangeSlider extends React.Component<Props, State> {
           transform: `translateX(${this.getPosition(value)}px)`
         }
       : { display: "none" };
+  };
+
+  shouldUpdate = (newValues: NumberPair) => {
+    const { range, values } = this.props;
+    const reverse = range[0] > range[1];
+    return (
+      (Math.abs(values[0] - newValues[0]) >= (Number as any).EPSILON ||
+        Math.abs(values[1] - newValues[1]) >= (Number as any).EPSILON) &&
+      ((reverse && newValues[0] >= newValues[1]) ||
+        (!reverse && newValues[0] <= newValues[1]))
+    );
   };
 
   handleLeftHandleMouseDown = () => {
@@ -62,42 +68,38 @@ export default class RangeSlider extends React.Component<Props, State> {
   handleMouseMove = (event: MouseEvent) => {
     event.preventDefault();
     const {
-      range: [min, max],
+      range: [left, right],
       step,
       values: [valueLeft, valueRight]
     } = this.props;
     const { dragging } = this.state;
-    const width = this.trackRef.offsetWidth;
     const position = event.clientX - this.trackRef.getBoundingClientRect().left;
 
-    const rawValue = position * (max - min) / width + min;
+    const rawValue =
+      position * (right - left) / this.trackRef.offsetWidth + left;
+
+    const min = Math.min(left, right);
+    const max = Math.max(left, right);
+
     const value = Math.min(
       max,
-      Math.max(min, min + step * Math.round((rawValue - min) / step))
+      Math.max(min, left + step * Math.round((rawValue - left) / step))
     );
+    console.log(rawValue, min, max, value);
 
-    if (
-      dragging === "left" &&
-      !isEqual(valueLeft, value) &&
-      value <= valueRight
-    ) {
-      this.props.onChange([value, valueRight]);
-    } else if (
-      dragging === "right" &&
-      !isEqual(valueRight, value) &&
-      value >= valueLeft
-    ) {
-      this.props.onChange([valueLeft, value]);
+    const newValues: NumberPair =
+      dragging === "left" ? [value, valueRight] : [valueLeft, value];
+
+    if (this.shouldUpdate(newValues)) {
+      this.props.onChange(newValues);
     }
   };
 
-  handleResize = () => {
-    this.forceUpdate();
-  };
+  handleResize = () => this.forceUpdate();
 
   componentDidMount() {
     document.addEventListener("mouseup", this.handleMouseUp);
-    document.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.handleResize);
     this.forceUpdate();
   }
 

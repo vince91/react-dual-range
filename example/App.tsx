@@ -9,7 +9,7 @@ interface State {
 }
 
 class App extends React.Component<null, State> {
-  state: State = { values: [0, 100] };
+  state: State = { values: [80, 40] };
 
   handleChange = (values: [number, number]) => {
     this.setState({ values });
