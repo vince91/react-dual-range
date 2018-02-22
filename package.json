@@ -4,7 +4,7 @@
   "description": "React dual range slider",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vince91/react-dual-range-slider"
+    "url": "https://github.com/vince91/react-dual-range"
   },
   "author": "Vincent Timofti",
   "license": "MIT",
