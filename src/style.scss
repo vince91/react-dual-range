@@ -1,5 +1,6 @@
 $dot-size: 12px;
 $handle-size: 20px;
+$range-color: lightslategray;
 
 .react-drs {
   position: relative;
@@ -11,14 +12,19 @@ $handle-size: 20px;
     background: lightgrey;
     position: relative;
     top: 10px;
+
+    &_active {
+      height: 100%;
+      background-color: $range-color;
+    }
   }
 
   &_handle {
     position: absolute;
     height: $handle-size;
     width: $handle-size;
-    border: 3px lightslategray solid;
-    background-color: lightslategray;
+    border: 3px $range-color solid;
+    background-color: $range-color;
     border-radius: $handle-size;
     top: -8px;
     left: -10px;

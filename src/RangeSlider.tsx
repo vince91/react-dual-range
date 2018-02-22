@@ -14,7 +14,7 @@ interface State {
 }
 
 interface StyleFunc {
-  (value: number): React.CSSProperties;
+  (value?: number): React.CSSProperties;
 }
 
 export default class RangeSlider extends React.Component<Props, State> {
@@ -31,12 +31,20 @@ export default class RangeSlider extends React.Component<Props, State> {
     return this.trackRef.offsetWidth * (value - left) / (right - left);
   };
 
-  getStyle: StyleFunc = (value: number) => {
-    return this.trackRef
-      ? {
-          transform: `translateX(${this.getPosition(value)}px)`
-        }
-      : { display: "none" };
+  getHandleStyle: StyleFunc = (value: number) => ({
+    transform: `translateX(${this.getPosition(value)}px)`
+  });
+
+  getActiveTrackStyle: StyleFunc = () => {
+    const { values: [left, right] } = this.props;
+    const [posLeft, posRight] = [
+      this.getPosition(left),
+      this.getPosition(right)
+    ];
+    return {
+      width: `${Math.abs(posLeft - posRight)}px`,
+      transform: `translateX(${Math.min(posLeft, posRight)}px)`
+    };
   };
 
   shouldUpdate = (newValues: NumberPair) => {
@@ -116,16 +124,24 @@ export default class RangeSlider extends React.Component<Props, State> {
         <div className="react-drs_track" ref={this.setTrackRef}>
           <div className="react-drs_dot react-drs_right-dot" />
           <div className="react-drs_dot react-drs_left-dot" />
-          <div
-            className="react-drs_handle"
-            style={this.getStyle(values[0])}
-            onMouseDown={this.handleLeftHandleMouseDown}
-          />
-          <div
-            className="react-drs_handle"
-            style={this.getStyle(values[1])}
-            onMouseDown={this.handleRightHandleMouseDown}
-          />
+          {this.trackRef && (
+            <>
+              <div
+                className="react-drs_handle"
+                style={this.getHandleStyle(values[0])}
+                onMouseDown={this.handleLeftHandleMouseDown}
+              />
+              <div
+                className="react-drs_handle"
+                style={this.getHandleStyle(values[1])}
+                onMouseDown={this.handleRightHandleMouseDown}
+              />
+              <div
+                className="react-drs_track_active"
+                style={this.getActiveTrackStyle()}
+              />
+            </>
+          )}
         </div>
       </div>
     );
