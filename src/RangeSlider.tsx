@@ -35,6 +35,10 @@ export default class RangeSlider extends React.Component<Props, State> {
     transform: `translateX(${this.getPosition(value)}px)`
   });
 
+  getValueStyle: StyleFunc = (value: number) => ({
+    left: `${this.getPosition(value)}px`
+  });
+
   getActiveTrackStyle: StyleFunc = () => {
     const { values: [left, right] } = this.props;
     const [posLeft, posRight] = [
@@ -120,6 +124,24 @@ export default class RangeSlider extends React.Component<Props, State> {
 
     return (
       <div className="react-drs">
+        <div className="react-drs_values">
+          {this.trackRef && (
+            <>
+              <div
+                className="react-drs_values_left"
+                style={this.getValueStyle(values[0])}
+              >
+                {values[0]}
+              </div>
+              <div
+                className="react-drs_values_right"
+                style={this.getValueStyle(values[1])}
+              >
+                {values[1]}
+              </div>
+            </>
+          )}
+        </div>
         <div className="react-drs_slider">
           <div className="react-drs_track" ref={this.setTrackRef} />
           <div className="react-drs_dot react-drs_right-dot" />

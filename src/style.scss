@@ -59,6 +59,7 @@ $track-color: lightgray;
     left: calc(-#{$dot-size}/2);
   }
 
+  &_values,
   &_range {
     height: 18px;
   }
@@ -71,6 +72,16 @@ $track-color: lightgray;
   &_range_right {
     float: right;
     transform: translateX(50%);
+  }
+
+  &_values {
+    position: relative;
+  }
+
+  &_values_left,
+  &_values_right {
+    position: absolute;
+    transform: translateX(-50%);
   }
 
   *,
