@@ -93,7 +93,6 @@ export default class RangeSlider extends React.Component<Props, State> {
       max,
       Math.max(min, left + step * Math.round((rawValue - left) / step))
     );
-    console.log(rawValue, min, max, value);
 
     const newValues: NumberPair =
       dragging === "left" ? [value, valueRight] : [valueLeft, value];
@@ -127,6 +126,10 @@ export default class RangeSlider extends React.Component<Props, State> {
           {this.trackRef && (
             <>
               <div
+                className="react-drs_track_active"
+                style={this.getActiveTrackStyle()}
+              />
+              <div
                 className="react-drs_handle"
                 style={this.getHandleStyle(values[0])}
                 onMouseDown={this.handleLeftHandleMouseDown}
@@ -135,10 +138,6 @@ export default class RangeSlider extends React.Component<Props, State> {
                 className="react-drs_handle"
                 style={this.getHandleStyle(values[1])}
                 onMouseDown={this.handleRightHandleMouseDown}
-              />
-              <div
-                className="react-drs_track_active"
-                style={this.getActiveTrackStyle()}
               />
             </>
           )}

@@ -1,6 +1,7 @@
 $dot-size: 12px;
 $handle-size: 20px;
-$range-color: lightslategray;
+$range-color: #327ccb;
+$track-color: lightgray;
 
 .react-drs {
   position: relative;
@@ -9,13 +10,13 @@ $range-color: lightslategray;
 
   &_track {
     height: 4px;
-    background: lightgrey;
+    background: $track-color;
     position: relative;
     top: 10px;
 
     &_active {
       height: 100%;
-      background-color: $range-color;
+      background: $range-color;
     }
   }
 
@@ -24,7 +25,7 @@ $range-color: lightslategray;
     height: $handle-size;
     width: $handle-size;
     border: 3px $range-color solid;
-    background-color: $range-color;
+    background: $range-color;
     border-radius: $handle-size;
     top: -8px;
     left: -10px;
@@ -36,10 +37,10 @@ $range-color: lightslategray;
     position: absolute;
     height: $dot-size;
     width: $dot-size;
-    border: 3px lightgray solid;
+    border: 3px $track-color solid;
     border-radius: $dot-size;
     top: -4px;
-    background-color: white;
+    background: $track-color;
   }
 
   &_right-dot {
