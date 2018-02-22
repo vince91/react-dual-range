@@ -4,20 +4,28 @@ $range-color: #327ccb;
 $track-color: lightgray;
 
 .react-drs {
-  position: relative;
-  padding: 0 calc(#{$handle-size}/2);
-  height: 24px;
+  padding: 0 20px;
+  font-family: sans-serif;
+
+  &_slider {
+    height: 24px;
+    position: relative;
+  }
+
+  &_track,
+  &_active-track {
+    height: 4px;
+    position: relative;
+  }
 
   &_track {
-    height: 4px;
     background: $track-color;
-    position: relative;
     top: 10px;
+  }
 
-    &_active {
-      height: 100%;
-      background: $range-color;
-    }
+  &_active-track {
+    background: $range-color;
+    top: 6px;
   }
 
   &_handle {
@@ -27,8 +35,8 @@ $track-color: lightgray;
     border: 3px $range-color solid;
     background: $range-color;
     border-radius: $handle-size;
-    top: -8px;
-    left: -10px;
+    top: 2px;
+    left: calc(-#{$handle-size}/2);
     cursor: -webkit-grab;
     cursor: grab;
   }
@@ -39,16 +47,30 @@ $track-color: lightgray;
     width: $dot-size;
     border: 3px $track-color solid;
     border-radius: $dot-size;
-    top: -4px;
+    top: 6px;
     background: $track-color;
   }
 
   &_right-dot {
-    right: -6px;
+    right: calc(-#{$dot-size}/2);
   }
 
   &_left-dot {
-    left: -6px;
+    left: calc(-#{$dot-size}/2);
+  }
+
+  &_range {
+    height: 18px;
+  }
+
+  &_range_left {
+    float: left;
+    transform: translateX(-50%);
+  }
+
+  &_range_right {
+    float: right;
+    transform: translateX(50%);
   }
 
   *,

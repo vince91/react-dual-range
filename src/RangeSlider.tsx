@@ -116,17 +116,18 @@ export default class RangeSlider extends React.Component<Props, State> {
   }
 
   render() {
-    const { values } = this.props;
+    const { values, range } = this.props;
 
     return (
       <div className="react-drs">
-        <div className="react-drs_track" ref={this.setTrackRef}>
+        <div className="react-drs_slider">
+          <div className="react-drs_track" ref={this.setTrackRef} />
           <div className="react-drs_dot react-drs_right-dot" />
           <div className="react-drs_dot react-drs_left-dot" />
           {this.trackRef && (
             <>
               <div
-                className="react-drs_track_active"
+                className="react-drs_active-track"
                 style={this.getActiveTrackStyle()}
               />
               <div
@@ -141,6 +142,10 @@ export default class RangeSlider extends React.Component<Props, State> {
               />
             </>
           )}
+        </div>
+        <div className="react-drs_range">
+          <div className="react-drs_range_left">{range[0]}</div>
+          <div className="react-drs_range_right">{range[1]}</div>
         </div>
       </div>
     );
